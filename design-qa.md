@@ -1,38 +1,40 @@
 # Design QA
 
-- Source visual truth: confirmed compact side-panel brief in the current task
-- Implementation screenshot: `D:\home\backlog\backlog-docked.png`
-- Viewport: Windows 1920 x 1080 display, 1040 px work-area height, right-docked application window
-- State: unfinished tab selected, empty list
+- Source visual truth: `C:\Users\weiye\AppData\Local\Temp\codex-clipboard-d900c398-4d2a-44cd-a92f-21d3f27f9dfe.png`
+- Implementation screenshot: `D:\home\backlog\backlog-glass-qa.png`
+- Viewport: 380 px wide, full Windows work-area height
+- State: unfinished tab selected, empty todo list, Chinese UI
 
 ## Full-view comparison evidence
 
-The application is fixed to the right work-area edge and spans the full available height. It does not float or expose vertical resizing. The compact title bar uses the supplied Backlog artwork and contains side toggle, settings, minimize, and close controls without overlap.
+The implementation preserves the reference hierarchy: brand toolbar, todo heading, glass composer, centered status tabs, date-list area, and fixed footer. The source contains populated todo groups while the implementation screenshot contains the real empty state, so row-density comparison is based on the implemented populated structure rather than identical screenshot content.
 
 ## Focused region comparison evidence
 
-The title bar, composer, and segmented tabs were inspected at original screenshot resolution. The supplied logo remains legible at toolbar scale. Both status tabs fit within the narrow window, expose counts, and preserve clear selected-state contrast. No custom-drawn icons or placeholder assets are present.
+The toolbar, composer, tabs, footer, and glass surfaces were compared at original resolution. Toolbar icon sizing, hairline separators, muted gray typography, compact count badges, and translucent white surfaces follow the selected direction. The supplied Backlog product icon intentionally replaces the generated layered logo from the mockup.
 
 ## Findings
 
-- No actionable P0/P1/P2 visual issues remain in the captured state.
-- Typography and spacing remain compact and readable in the full-height side panel.
-- The unfinished/completed tabs are visually distinct and default to unfinished.
-- The selected neutral palette, lime count accent, and supplied multicolor logo remain balanced.
-- Empty-state copy matches the selected tab.
-- Populated and shortcut-recording states are verified by implementation and type checks but are not included in the captured image.
+- No actionable P0/P1/P2 layout or interaction issues remain.
+- Typography follows the reference's compact native-system hierarchy and uses zero letter spacing.
+- Spacing, toolbar proportions, composer height, tab alignment, and footer placement match the selected structure.
+- Windows 10 does not blur Acrylic as strongly as the generated mockup; the 97% glass base is an intentional readability fallback. macOS uses native Vibrancy.
+- The empty state is centered and does not disturb the fixed footer or tab layout.
+- No image assets were replaced with CSS drawings; the user-supplied bitmap logo and library icons are used.
+- Copy is fully localized for Simplified Chinese and English, including settings and tray menus.
 
 ## Patches made
 
-- Replaced the invalid loop-level template ref with task-ID keyed input references.
-- Replaced status sections with unfinished/completed tabs.
-- Added right-default, left/right-only, full-work-area-height docking.
-- Added default always-on-top behavior and side switching.
-- Added persisted, user-recordable global shortcut behavior.
-- Replaced default Electron imagery with the supplied Backlog icon for runtime and installers.
+- Added native tray behavior and removed the main-window close action.
+- Added system/Chinese/English language preference and persistence.
+- Added NSIS install-directory selection.
+- Rebuilt the visual surface around the selected frosted-glass mockup.
+- Added clear-completed footer action and functional settings panel.
+- Increased Windows glass base opacity after screenshot QA exposed background-content interference.
 
 ## Follow-up polish
 
-- P3: validate icon sharpness on a macOS Retina display during the macOS packaging pass.
+- P3: verify native Vibrancy and tray-menu typography on macOS hardware.
+- P3: capture a populated production state for row-level visual comparison.
 
 final result: passed

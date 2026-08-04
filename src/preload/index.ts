@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron'
-import type { ShortcutApi, TodoApi, TodoUpdate, WindowApi } from '../shared/todo'
+import type { LanguagePreference, LocaleApi, ShortcutApi, TodoApi, TodoUpdate, WindowApi } from '../shared/todo'
 
 const todoApi: TodoApi = {
   list: () => ipcRenderer.invoke('todos:list'),
@@ -13,7 +13,11 @@ contextBridge.exposeInMainWorld('todos', todoApi)
 const windowApi: WindowApi = {
   minimize: () => ipcRenderer.invoke('window:minimize'),
   toggleSide: () => ipcRenderer.invoke('window:toggle-side'),
-  close: () => ipcRenderer.invoke('window:close')
+  onOpenSettings: (callback: () => void) => {
+    const listener = (): void => callback()
+    ipcRenderer.on('settings:open', listener)
+    return () => ipcRenderer.removeListener('settings:open', listener)
+  }
 }
 
 contextBridge.exposeInMainWorld('windowControls', windowApi)
@@ -24,3 +28,10 @@ const shortcutApi: ShortcutApi = {
 }
 
 contextBridge.exposeInMainWorld('shortcut', shortcutApi)
+
+const localeApi: LocaleApi = {
+  get: () => ipcRenderer.invoke('locale:get'),
+  set: (language: LanguagePreference) => ipcRenderer.invoke('locale:set', language)
+}
+
+contextBridge.exposeInMainWorld('locale', localeApi)

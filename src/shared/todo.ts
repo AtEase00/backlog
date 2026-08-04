@@ -21,10 +21,17 @@ export interface TodoApi {
 export interface WindowApi {
   minimize(): Promise<void>
   toggleSide(): Promise<'left' | 'right'>
-  close(): Promise<void>
+  onOpenSettings(callback: () => void): () => void
 }
 
 export interface ShortcutApi {
   get(): Promise<string>
   set(accelerator: string): Promise<string>
+}
+
+export type LanguagePreference = 'system' | 'zh-CN' | 'en'
+
+export interface LocaleApi {
+  get(): Promise<LanguagePreference>
+  set(language: LanguagePreference): Promise<LanguagePreference>
 }
