@@ -1,0 +1,55 @@
+{
+  "name": "backlog-desktop",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A local-first todo desktop app for Windows and macOS.",
+  "main": "./out/main/index.js",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "npm run typecheck && electron-vite build",
+    "dist": "npm run build && electron-builder",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.web.json && tsc --noEmit -p tsconfig.node.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "lucide-vue-next": "0.468.0",
+    "vue": "3.5.40"
+  },
+  "devDependencies": {
+    "@types/node": "26.1.2",
+    "@vitejs/plugin-vue": "6.0.8",
+    "electron": "43.2.0",
+    "electron-builder": "26.15.3",
+    "electron-vite": "5.0.0",
+    "typescript": "5.9.3",
+    "vite": "8.2.0",
+    "vitest": "4.1.10",
+    "vue-tsc": "3.3.9"
+  },
+  "build": {
+    "appId": "com.backlog.desktop",
+    "productName": "Backlog",
+    "directories": {
+      "output": "dist",
+      "buildResources": "resources"
+    },
+    "files": [
+      "out/**/*",
+      "resources/icon.png",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "resources/icon.ico"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "resources/icon.icns"
+    },
+    "nsis": {
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Backlog"
+    }
+  }
+}
